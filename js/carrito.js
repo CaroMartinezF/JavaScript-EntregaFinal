@@ -4,9 +4,9 @@ JSON.parse(sessionStorage.getItem("carrito")) === null && sessionStorage.setItem
 let carrito = JSON.parse(sessionStorage.getItem("carrito"));
 //funcion ComprarProducto que la exporto para usar en paginaProductos
 export const comprarProducto = (idProducto) =>{
-    const producto = productosDisponibles.find((producto) => producto.id === idProducto) // Busco el producto
-    const {nombre, precio, imagen, id} = producto
-    const productoEnCarrito = carrito.find((producto) => producto.id === idProducto)
+    const producto = productosDisponibles.find((producto) => producto.id === idProducto); // Busco el producto
+    const {nombre, precio, imagen, id} = producto;
+    const productoEnCarrito = carrito.find((producto) => producto.id === idProducto);
 //Si el producto no se encuentra a través del id, entonces lo sumo al carrito de cero
     if(productoEnCarrito === undefined){
         const nuevoProductoCarrito = {
@@ -16,30 +16,28 @@ export const comprarProducto = (idProducto) =>{
             imagen: imagen,
             cantidad: 1
         }
-    carrito.push(nuevoProductoCarrito)
+    carrito.push(nuevoProductoCarrito);
     //Guardo el carrito en el sessionStorage.
     sessionStorage.setItem("carrito", JSON.stringify(carrito) );
     }else{//Si está, le agrego una cantidad y aumenta el precio
-        const productoCarrito = carrito.findIndex((producto) => producto.id === idProducto)
-        carrito[productoCarrito].cantidad++
-        carrito[productoCarrito].precio = precio * carrito[productoCarrito].cantidad
+        const productoCarrito = carrito.findIndex((producto) => producto.id === idProducto);
+        carrito[productoCarrito].cantidad++;
+        carrito[productoCarrito].precio = precio * carrito[productoCarrito].cantidad;
         //Subo el carrtio
-        sessionStorage.setItem("carrito", JSON.stringify(carrito))
+        sessionStorage.setItem("carrito", JSON.stringify(carrito));
     }
     //Actualizo mi carrito
-    carrito = JSON.parse(sessionStorage.getItem("carrito"))
-    crearCarrito()
+    carrito = JSON.parse(sessionStorage.getItem("carrito"));
+    crearCarrito();
     Swal.fire({
         icon: "success",
         title: `Producto: ${nombre} agregado con exito al carrito`,
     });
 }
-
 //Crear carrito al tocar el boton de Carrito
 document.addEventListener("DOMContentLoaded", () => {
     crearCarrito()
-})
-
+});
 const listaCarrito = document.getElementById("items");
 const totalesCarrito = document.getElementById("totales");
 const botonCarrito = document.getElementById("botonCarrito");
@@ -49,10 +47,10 @@ botonCarrito.addEventListener("click", () =>{
     if(carritoTabla.style.display === "block"){
         carritoTabla.style.display = "none";
     } else{
-        carritoTabla.style.display = "block"
+        carritoTabla.style.display = "block";
         crearCarrito()
     }
-})
+});
 
 //Funcion crearCarrito mostrar los que estan en el sessionStorage
 const crearCarrito = () => {
@@ -91,7 +89,7 @@ const crearTotales = () => {
     if(carrito.length > 0){
         totalesCarrito.innerHTML = ""
 
-        let totales = document.createElement("tr")
+        let totales = document.createElement("tr");
 
         totales.innerHTML = `
         <th><b>Totales:</b></th>
@@ -107,8 +105,8 @@ const crearTotales = () => {
     }
 };
 const totalesFinales = () => {
-    const costoTotal = carrito.reduce((total, {precio}) => total + precio, 0)
-    const cantidadTotal = carrito.reduce((total, {cantidad}) => total + cantidad, 0)
+    const costoTotal = carrito.reduce((total, {precio}) => total + precio, 0);
+    const cantidadTotal = carrito.reduce((total, {cantidad}) => total + cantidad, 0);
 
     return {
         costoTotal: costoTotal,
@@ -117,28 +115,27 @@ const totalesFinales = () => {
 };
 
 const aumentarCantidad = (id) => {
-    const productoCarrito = carrito.findIndex((producto) => producto.id === id)
-    const precio = carrito[productoCarrito].precio / carrito[productoCarrito].cantidad
+    const productoCarrito = carrito.findIndex((producto) => producto.id === id);
+    const precio = carrito[productoCarrito].precio / carrito[productoCarrito].cantidad;
 
-    carrito[productoCarrito].cantidad++
-    carrito[productoCarrito].precio = precio*carrito[productoCarrito].cantidad
+    carrito[productoCarrito].cantidad++;
+    carrito[productoCarrito].precio = precio*carrito[productoCarrito].cantidad;
 
-    sessionStorage.setItem("carrito", JSON.stringify(carrito))
+    sessionStorage.setItem("carrito", JSON.stringify(carrito));
     crearCarrito()
-
 }
 
 const restarCantidad = (id) => {
-    const productoCarrito = carrito.findIndex((producto) => producto.id === id)
-    const precio = carrito[productoCarrito].precio / carrito[productoCarrito].cantidad
+    const productoCarrito = carrito.findIndex((producto) => producto.id === id);
+    const precio = carrito[productoCarrito].precio / carrito[productoCarrito].cantidad;
 
-    carrito[productoCarrito].cantidad--
-    carrito[productoCarrito].precio = precio*carrito[productoCarrito].cantidad
+    carrito[productoCarrito].cantidad--;
+    carrito[productoCarrito].precio = precio*carrito[productoCarrito].cantidad;
 
     if(carrito[productoCarrito].cantidad === 0){
-        carrito.splice(productoCarrito, 1)
+        carrito.splice(productoCarrito, 1);
     }
 
-    sessionStorage.setItem("carrito", JSON.stringify(carrito))
+    sessionStorage.setItem("carrito", JSON.stringify(carrito));
     crearCarrito()
 }

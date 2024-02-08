@@ -6,7 +6,7 @@ import {eliminarProducto} from "./administrador.js";
 //Traigo el id del boton
 const botonUsuario = document.getElementById("botonUsuario");
 //Traigo al usuarioLogeado
-let usuarioLogeado = JSON.parse(sessionStorage.getItem("usuario"))
+let usuarioLogeado = JSON.parse(sessionStorage.getItem("usuario"));
 //PRODUCTOS
 const contenedorProductos = document.getElementById("contenedorProductos");
 
@@ -40,8 +40,8 @@ export const generarCardsProductos = (productos) => {
         botonComprar.addEventListener("click", () => comprarProducto(id));
         //Opcion para agregar boton de eliminar si soy admin
         if(usuarioLogeado?.admin === true){
-            const botonEliminar = document.getElementById(`eliminar${id}`)
-            botonEliminar.addEventListener("click", () => eliminarProducto(id))
+            const botonEliminar = document.getElementById(`eliminar${id}`);
+            botonEliminar.addEventListener("click", () => eliminarProducto(id));
         }
     })
 };
@@ -51,72 +51,72 @@ const UserLogin = document.getElementById("userLogin");
 //Recarga de evento para correr funcion + desloguear usuario
 document.addEventListener("DOMContentLoaded", () => {
     if (usuarioLogeado === null){
-        const a = document.createElement("a")
-        a.href = "../pages/usuarios.html"
-        botonUsuario.appendChild(a)
+        const a = document.createElement("a");
+        a.href = "../pages/usuarios.html";
+        botonUsuario.appendChild(a);
     }else{
-        botonUsuario.style.display="none"
-        imgUsuario.style.display="none"
-        const div = document.createElement("div")
+        botonUsuario.style.display="none";
+        imgUsuario.style.display="none";
+        const div = document.createElement("div");
         div.classList.add("divUsuario");
-        const close = document.createElement("button")
+        const close = document.createElement("button");
         div.innerHTML = `
         <p>Bienvenido/a ${usuarioLogeado.user}</p>
         <img class="imagenPerfil" src ="${usuarioLogeado.img}">
         
         `
         
-        close.id = "cerrarSesion"
-        close.innerHTML = "cerrar sesion"
+        close.id = "cerrarSesion";
+        close.innerHTML = "cerrar sesion";
         close.addEventListener("click", () => {
             sessionStorage.removeItem("usuario")
             location.reload()
-        })
-        userLogin.appendChild(div)
-        userLogin.appendChild(close)
+        });
+        userLogin.appendChild(div);
+        userLogin.appendChild(close);
     }
-    generarCardsProductos (productosDisponibles)
+    generarCardsProductos (productosDisponibles);
 });
 
 //FILTROS
 const filterInput = document.getElementById("buscador");
 //Por imput
 filterInput.addEventListener("keyup", (e) => {
-    const productosFilter = productosDisponibles.filter((producto) => producto.nombre.toLowerCase().includes(e.target.value))
-    productosDisponibles = productosFilter
+    const productosFilter = productosDisponibles.filter((producto) => producto.nombre.toLowerCase().includes(e.target.value));
+    productosDisponibles = productosFilter;
     if(e.target.value !== ""){
-        generarCardsProductos(productosFilter)
+        generarCardsProductos(productosFilter);
     }else{
-        productosDisponibles = JSON.parse(localStorage.getItem("productos"))
-        generarCardsProductos(productosDisponibles)
+        productosDisponibles = JSON.parse(localStorage.getItem("productos"));
+        generarCardsProductos(productosDisponibles);
     }
 });
 
 //Por Categoría
 const filterLista = document.getElementById("filterLista");
 filterLista.addEventListener("click", (e) => {
-    const productosFilter = productosDisponibles.filter((producto) => producto.categoria.toLowerCase().includes(e.target.innerHTML.toLowerCase()))
-    productosDisponibles = productosFilter
+    const productosFilter = productosDisponibles.filter((producto) => producto.categoria.toLowerCase().includes(e.target.innerHTML.toLowerCase()));
+    productosDisponibles = productosFilter;
     if(e.target.innerHTML !== "Todos"){
-        generarCardsProductos(productosFilter)
+        generarCardsProductos(productosFilter);
     }else{
-        productosDisponibles = JSON.parse(localStorage.getItem("productos"))
-        generarCardsProductos(productosDisponibles)
+        productosDisponibles = JSON.parse(localStorage.getItem("productos"));
+        generarCardsProductos(productosDisponibles);
     }
 });
 
   // Ordenar por precio
 const ordenarPrecio = document.getElementById("ordenarPrecio");
 ordenarPrecio.addEventListener("click", (e) => {
-    const orden = e.target.innerHTML
-    let productos
+    const orden = e.target.innerHTML;
+    let productos;
     if(orden === "Menor a mayor"){
-        productos = productosDisponibles.sort((a, b) => a.precio - b.precio)
+        productos = productosDisponibles.sort((a, b) => a.precio - b.precio);
     }else if(orden === "Mayor a menor"){
-        productos = productosDisponibles.sort((a, b) => b.precio - a.precio)
+        productos = productosDisponibles.sort((a, b) => b.precio - a.precio);
     }
     console.log(productos);
-    generarCardsProductos(productos)
+    generarCardsProductos(productos);
 });
 
 
